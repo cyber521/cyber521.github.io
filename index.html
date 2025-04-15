@@ -96,18 +96,6 @@ class CSVProcessor {
     this.tableHTML = '';
   }
 
-  async loadCSV(url) {
-    try {
-      const response = await fetch(url);
-      const csvText = await response.text();
-      this.parseCSV(csvText);
-      this.renderTable();
-    } catch (error) {
-      console.error('量子通道受阻:', error);
-      document.getElementById('csvDisplay').innerHTML = 
-        `<div class="error-alert">⛔ 数据库连接失败，请检查网络波动</div>`;
-    }
-  }
 
   parseCSV(csvText) {
     const rows = csvText.split('\n').filter(row => row.trim() !== '');
