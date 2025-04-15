@@ -1,152 +1,179 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>赛博心 · 你与次元爱人的桥梁</title>
-    <link rel="stylesheet" href="index.css">
-    <style>
-    /* 基础重置 */
-    :root {
-        --primary-color: #6C5B7B;
-        --secondary-color: #355C7D;
-        --cyber-accent: #FF6F61;
-        --text-dark: #2A363B;
-        --text-light: #F8F9FA;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>赛博心 · 你与次元爱人的桥梁</title>
+<link rel="stylesheet" href="index.css">
+<style>
+/* 新增CSV数据表格样式 */
+.cyber-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  overflow: hidden;
+}
 
-    /* 动态布局系统 */
-    body {
-        font-family: 'Segoe UI', system-ui, sans-serif;
-        background: linear-gradient(45deg, #F8F9FA 0%, #E9ECEF 100%);
-        color: var(--text-dark);
-        line-height: 1.6;
-        transition: all 0.3s ease;
-    }
+.cyber-table th {
+  background: var(--primary-color);
+  color: var(--text-light);
+  padding: 1rem;
+  text-align: left;
+  position: relative;
+}
 
-    /* 赛博风格导航 */
-    .cyber-nav {
-        background: rgba(108, 91, 123, 0.9);
-        backdrop-filter: blur(10px);
-        padding: 1rem 2rem;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
+.cyber-table th::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 60%;
+  background: var(--cyber-accent);
+}
 
-    .cyber-nav a {
-        color: var(--text-light);
-        text-decoration: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 4px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-    }
+.cyber-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background 0.3s ease;
+}
 
-    .cyber-nav a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0;
-        height: 2px;
-        background: var(--cyber-accent);
-        transition: all 0.3s ease;
-    }
+.cyber-table tr:hover td {
+  background: rgba(108, 91, 123, 0.05);
+}
 
-    .cyber-nav a:hover::after {
-        width: 80%;
-        left: 10%;
-    }
+/* 数据加载动画 */
+@keyframes cyber-pulse {
+  0% { opacity: 0.6; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.6; transform: scale(0.98); }
+}
 
-    /* 响应式内容容器 */
-    .cyber-container {
-        max-width: 1200px;
-        margin: 2rem auto;
-        padding: 0 1.5rem;
-        display: grid;
-        gap: 2rem;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
+.loading-indicator {
+  animation: cyber-pulse 1.5s infinite;
+  text-align: center;
+  padding: 2rem;
+  color: var(--cyber-accent);
+}
 
-    /* 数据卡片设计 */
-    .data-card {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 12px;
-        padding: 2rem;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
-    }
-
-    .data-card:hover {
-        transform: translateY(-5px);
-    }
-
-    /* 暗黑模式支持 */
-    @media (prefers-color-scheme: dark) {
-        body {
-            background: linear-gradient(45deg, #2A363B 0%, #1E272E 100%);
-            color: var(--text-light);
-        }
-        
-        .data-card {
-            background: rgba(40, 40, 40, 0.9);
-        }
-    }
-
-    /* 打印优化 */
-    @media print {
-        .cyber-nav {
-            display: none;
-        }
-        
-        .data-card {
-            box-shadow: none;
-            border: 1px solid #ddd;
-        }
-    }
-    </style>
+/* 暗黑模式适配 */
+@media (prefers-color-scheme: dark) {
+  .cyber-table {
+    background: rgba(40, 40, 40, 0.9);
+  }
+  
+  .cyber-table td {
+    border-color: rgba(255,255,255,0.1);
+  }
+}
+</style>
 </head>
 <body>
-    <nav class="cyber-nav">
-        <a href="#home">主页</a>
-        <a href="#memory">回忆</a>
-        <a href="#archive">展示</a>
-        <a href="#about">关于赛博心</a>
-    </nav>
+<nav class="cyber-nav">
+  <a href="#home">主页</a>
+  <a href="#memory">回忆</a>
+  <a href="#archive">展示</a>
+  <a href="#about">关于赛博心</a>
+</nav>
 
-    <div class="cyber-container">
-        <div class="data-card">
-            <h2>系统状态</h2>
-            <div class="cyber-meter">
-                <div class="meter-bar" style="width: 75%"></div>
-            </div>
-        </div>
+<div class="cyber-container">
+  <!-- 新增数据展示卡片 -->
+  <div class="data-card">
+    <h2>次元档案库</h2>
+    <div id="csvDisplay" class="loading-indicator">正在连接量子数据库...</div>
+  </div>
 
-        <div class="data-card">
-            <h2>实时数据流</h2>
-            <canvas id="neuralChart"></canvas>
-        </div>
+  <!-- 原有系统状态卡片保持不变 -->
+  <div class="data-card">
+    <h2>系统状态</h2>
+    <div class="cyber-meter">
+      <div class="meter-bar" style="width: 75%"></div>
     </div>
+  </div>
+</div>
 
-    <script>
-    // 暗黑模式切换
-    const themeSwitch = document.createElement('button');
-    themeSwitch.textContent = '🌓 界面切换';
-    themeSwitch.style.position = 'fixed';
-    themeSwitch.style.bottom = '20px';
-    themeSwitch.style.right = '20px';
-    document.body.appendChild(themeSwitch);
+<script>
+// CSV数据处理模块
+class CSVProcessor {
+  constructor() {
+    this.csvData = [];
+    this.tableHTML = '';
+  }
 
-    themeSwitch.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  async loadCSV(url) {
+    try {
+      const response = await fetch(url);
+      const csvText = await response.text();
+      this.parseCSV(csvText);
+      this.renderTable();
+    } catch (error) {
+      console.error('量子通道受阻:', error);
+      document.getElementById('csvDisplay').innerHTML = 
+        `<div class="error-alert">⛔ 数据库连接失败，请检查网络波动</div>`;
+    }
+  }
+
+  parseCSV(csvText) {
+    const rows = csvText.split('\n').filter(row => row.trim() !== '');
+    const headers = rows.split(',').map(h => h.trim());
+    
+    this.csvData = rows.slice(1).map(row => {
+      const cells = row.split(',').map(c => c.trim());
+      return headers.reduce((obj, key, index) => {
+        obj[key] = cells[index] || 'N/A';
+        return obj;
+      }, {});
     });
+  }
 
-    // 初始化主题
-    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.body.classList.toggle('dark-mode', savedTheme === 'dark');
-    </script>
+  renderTable() {
+    if (this.csvData.length === 0) return;
+
+    const headers = Object.keys(this.csvData);
+    this.tableHTML = `
+      <table class="cyber-table">
+        <thead>
+          <tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>
+        </thead>
+        <tbody>
+          ${this.csvData.map(row => `
+            <tr>${headers.map(h => `<td>${row[h]}</td>`).join('')}</tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+    
+    document.getElementById('csvDisplay').innerHTML = this.tableHTML;
+  }
+}
+
+// 初始化CSV处理器
+const csvProcessor = new CSVProcessor();
+
+// 页面加载完成后执行
+window.addEventListener('DOMContentLoaded', () => {
+  // 加载CSV数据
+  csvProcessor.loadCSV('index.csv');
+  
+  // 原有主题切换代码保持不变
+  const themeSwitch = document.createElement('button');
+  themeSwitch.textContent = '🌓 界面切换';
+  themeSwitch.style.position = 'fixed';
+  themeSwitch.style.bottom = '20px';
+  themeSwitch.style.right = '20px';
+  document.body.appendChild(themeSwitch);
+
+  themeSwitch.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  });
+
+  const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+});
+</script>
 </body>
 </html>
